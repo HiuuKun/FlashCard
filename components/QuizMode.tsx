@@ -30,25 +30,25 @@ const QuizMode: React.FC<QuizModeProps> = ({ section, onClose }) => {
 
   useEffect(() => {
     const allMeanings = section.cards.map(c => c.meaning);
-    
+
     // Generate questions with session-unique IDs to prevent collisions
     const qs = section.cards.map((card, idx) => {
       let distractors = allMeanings
         .filter(m => m !== card.meaning)
         .sort(() => Math.random() - 0.5)
         .slice(0, 3);
-      
+
       // Fallback if not enough meanings exist in the section
       while (distractors.length < 3) {
         distractors.push(`Definition ${distractors.length + 1}`);
       }
 
       const options = [...distractors, card.meaning].sort(() => Math.random() - 0.5);
-      
-      return { 
-        id: `q-${idx}-${crypto.randomUUID().slice(0, 8)}`, 
-        card, 
-        options 
+
+      return {
+        id: `q-${idx}-${crypto.randomUUID().slice(0, 8)}`,
+        card,
+        options
       };
     });
 
@@ -85,7 +85,7 @@ const QuizMode: React.FC<QuizModeProps> = ({ section, onClose }) => {
     <div className="flex min-h-[calc(100vh-100px)] relative">
       {/* Main Content Area - Fixed width container to prevent movement when sidebar toggles */}
       <div className="flex-grow px-4 py-10 max-w-4xl mx-auto w-full relative z-0">
-        
+
         {isDone && (
           <div className="bg-white p-10 rounded-3xl border-2 border-black shadow-[10px_10px_0px_0px_rgba(0,0,0,1)] text-center mb-16 animate-in fade-in slide-in-from-top-4 duration-500">
             <h2 className="text-4xl font-black text-black mb-2 uppercase italic tracking-tighter">Quiz Results</h2>
@@ -96,8 +96,8 @@ const QuizMode: React.FC<QuizModeProps> = ({ section, onClose }) => {
               Score: {calculateScore()} / {questions.length}
             </p>
             <div className="flex justify-center">
-              <button 
-                onClick={onClose} 
+              <button
+                onClick={onClose}
                 className="px-12 py-4 bg-black text-white rounded-xl font-black border-2 border-black hover:bg-sky-500 hover:text-white transition-all uppercase text-lg shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] active:translate-x-1 active:translate-y-1 active:shadow-none"
               >
                 Finish & Go Home
@@ -107,22 +107,22 @@ const QuizMode: React.FC<QuizModeProps> = ({ section, onClose }) => {
         )}
 
         <div className="mb-10 text-black">
-            <h2 className="text-3xl font-black uppercase tracking-tighter mb-2">
-              {isDone ? "Review Test" : "Multiple Choice Test"}
-            </h2>
-            <p className="font-medium text-slate-500 uppercase text-xs tracking-widest">
-              {isDone ? "See where you can improve" : "Select the correct definition for each term"}
-            </p>
+          <h2 className="text-3xl font-black uppercase tracking-tighter mb-2">
+            {isDone ? "Review Test" : "Multiple Choice Test"}
+          </h2>
+          <p className="font-medium text-slate-500 uppercase text-xs tracking-widest">
+            {isDone ? "See where you can improve" : "Select the correct definition for each term"}
+          </p>
         </div>
 
         <div className="space-y-12 pb-32">
           {questions.map((q, idx) => {
             const userChoice = userAnswers[q.id];
             const isCorrect = userChoice === q.card.meaning;
-            
+
             return (
-              <div 
-                key={q.id} 
+              <div
+                key={q.id}
                 ref={el => { questionRefs.current[idx] = el; }}
                 className={`bg-white p-8 rounded-3xl border-2 border-black shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] transition-all
                   ${isDone ? (isCorrect ? 'ring-4 ring-green-100 border-green-500 shadow-none' : 'ring-4 ring-red-100 border-red-500 shadow-none') : ''}`}
@@ -138,18 +138,25 @@ const QuizMode: React.FC<QuizModeProps> = ({ section, onClose }) => {
                     </span>
                   )}
                   {!isDone && userAnswers[q.id] && (
-                     <span className="text-[10px] font-black uppercase text-sky-500">Answered</span>
+                    <span className="text-[10px] font-black uppercase text-sky-500">Answered</span>
                   )}
                 </div>
 
                 {/* Removed 'uppercase' from the vocabulary title */}
-                <h3 className="text-3xl font-black text-black mb-8">{q.card.vocab}</h3>
-                
+                <div className="flex items-center gap-3 mb-8">
+                  <h3 className="text-3xl font-black text-black">{q.card.vocab}</h3>
+                  {q.card.wordClass && (
+                    <span className="px-3 py-1 bg-sky-100 border border-black rounded-lg text-xs font-black uppercase">
+                      {q.card.wordClass}
+                    </span>
+                  )}
+                </div>
+
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   {q.options.map((opt, i) => {
                     const isSelected = userAnswers[q.id] === opt;
                     const isTheCorrectAnswer = opt === q.card.meaning;
-                    
+
                     let buttonClass = "border-black bg-white text-black hover:bg-sky-50";
                     let icon = null;
 
@@ -200,7 +207,7 @@ const QuizMode: React.FC<QuizModeProps> = ({ section, onClose }) => {
 
       {/* Side Navigation Bar - Overlay style using 'fixed' to avoid shifting the quiz content */}
       {!isDone && (
-        <div 
+        <div
           className={`fixed top-24 right-0 h-[calc(100vh-96px)] bg-white border-l-2 border-black shadow-[-10px_0px_30px_0px_rgba(0,0,0,0.1)] transition-transform duration-300 z-50 
             ${isSidebarOpen ? 'translate-x-0 w-64' : 'translate-x-full w-64'}`}
         >
@@ -232,19 +239,19 @@ const QuizMode: React.FC<QuizModeProps> = ({ section, onClose }) => {
                 </button>
               ))}
             </div>
-            
+
             <div className="mt-6 pt-6 border-t-2 border-black space-y-3">
-               <div className="text-xs font-black uppercase text-black flex justify-between">
-                  <span>Completed</span>
-                  <span>{Object.keys(userAnswers).length} / {questions.length}</span>
-               </div>
-               <button 
-                 type="button"
-                 onClick={handleEndTest}
-                 className="w-full py-4 bg-black text-white rounded-xl font-black border-2 border-black hover:bg-sky-500 hover:text-white transition-all uppercase text-sm shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] active:translate-x-1 active:translate-y-1 active:shadow-none"
-               >
-                  <span className="text-white">End Test</span>
-               </button>
+              <div className="text-xs font-black uppercase text-black flex justify-between">
+                <span>Completed</span>
+                <span>{Object.keys(userAnswers).length} / {questions.length}</span>
+              </div>
+              <button
+                type="button"
+                onClick={handleEndTest}
+                className="w-full py-4 bg-black text-white rounded-xl font-black border-2 border-black hover:bg-sky-500 hover:text-white transition-all uppercase text-sm shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] active:translate-x-1 active:translate-y-1 active:shadow-none"
+              >
+                <span className="text-white">End Test</span>
+              </button>
             </div>
           </div>
         </div>

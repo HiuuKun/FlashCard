@@ -5,6 +5,8 @@ import { BrainIcon, PlusIcon, PencilIcon, TrashIcon, PlayIcon, ExportIcon, Impor
 import SectionEditor from './components/SectionEditor';
 import FlashcardMode from './components/FlashcardMode';
 import QuizMode from './components/QuizMode';
+import ResponseMode from './components/ResponseMode';
+import TestMode from './components/TestMode';
 
 const App: React.FC = () => {
   const [sections, setSections] = useState<Section[]>(() => {
@@ -339,8 +341,14 @@ const App: React.FC = () => {
                         <button type="button" onClick={() => { setActiveId(s.id); setMode('flashcard'); }} className="flex items-center justify-center gap-2 py-3 bg-sky-500 text-white rounded-xl font-black text-sm hover:bg-sky-600 border-2 border-black transition-all uppercase cursor-pointer shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:shadow-none active:translate-x-[2px] active:translate-y-[2px]">
                           <PlayIcon className="w-4 h-4" /> Flashcards
                         </button>
-                        <button type="button" onClick={() => { setActiveId(s.id); setMode('quiz'); }} className="flex items-center justify-center gap-2 py-3 bg-sky-500 text-white rounded-xl font-black text-sm hover:bg-sky-600 border-2 border-black transition-all uppercase cursor-pointer shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:shadow-none active:translate-x-[2px] active:translate-y-[2px]">
+                        <button type="button" onClick={() => { setActiveId(s.id); setMode('quiz'); }} className="flex items-center justify-center gap-2 py-3 bg-yellow-300 text-black rounded-xl font-black text-sm hover:bg-yellow-400 border-2 border-black transition-all uppercase cursor-pointer shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:shadow-none active:translate-x-[2px] active:translate-y-[2px]">
                           Multiple Choices
+                        </button>
+                        <button type="button" onClick={() => { setActiveId(s.id); setMode('response'); }} className="flex items-center justify-center gap-2 py-3 bg-green-500 text-white rounded-xl font-black text-sm hover:bg-green-600 border-2 border-black transition-all uppercase cursor-pointer shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:shadow-none active:translate-x-[2px] active:translate-y-[2px]">
+                          Response
+                        </button>
+                        <button type="button" onClick={() => { setActiveId(s.id); setMode('test'); }} className="flex items-center justify-center gap-2 py-3 bg-purple-500 text-white rounded-xl font-black text-sm hover:bg-purple-600 border-2 border-black transition-all uppercase cursor-pointer shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:shadow-none active:translate-x-[2px] active:translate-y-[2px]">
+                          Test
                         </button>
                       </div>
                     </div>
@@ -376,6 +384,8 @@ const App: React.FC = () => {
         {mode === 'edit' && <SectionEditor section={activeSection || null} onSave={handleSave} onCancel={() => setMode('dashboard')} />}
         {mode === 'flashcard' && activeSection && <FlashcardMode section={activeSection} onClose={() => setMode('dashboard')} />}
         {mode === 'quiz' && activeSection && <QuizMode section={activeSection} onClose={() => setMode('dashboard')} />}
+        {mode === 'response' && activeSection && <ResponseMode section={activeSection} onClose={() => setMode('dashboard')} />}
+        {mode === 'test' && activeSection && <TestMode section={activeSection} onClose={() => setMode('dashboard')} />}
       </main>
     </div>
   );

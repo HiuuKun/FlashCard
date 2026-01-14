@@ -103,6 +103,25 @@ const SectionEditor: React.FC<SectionEditorProps> = ({ section, onSave, onCancel
                 placeholder="Vocabulary..."
               />
             </div>
+            <div className="flex-none w-32 text-black">
+              <label className="text-[10px] font-black uppercase mb-1 block">Word Class</label>
+              <select
+                value={c.wordClass || ''}
+                onChange={e => updateCard(c.id, 'wordClass', e.target.value)}
+                className="w-full bg-white border-2 border-black rounded-lg py-1 px-2 font-bold text-sm outline-none text-black cursor-pointer hover:bg-sky-50 transition-colors"
+              >
+                <option value="">-</option>
+                <option value="n">n (noun)</option>
+                <option value="v">v (verb)</option>
+                <option value="adj">adj (adjective)</option>
+                <option value="adv">adv (adverb)</option>
+                <option value="phrase">phrase</option>
+                <option value="idiom">idiom</option>
+                <option value="prep">prep (preposition)</option>
+                <option value="conj">conj (conjunction)</option>
+                <option value="pron">pron (pronoun)</option>
+              </select>
+            </div>
             <div className="flex-[2] relative text-black">
               <label className="text-[10px] font-black uppercase mb-1 block">Meaning / Definition</label>
               <input

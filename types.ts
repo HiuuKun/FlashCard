@@ -2,6 +2,7 @@
 export interface Card {
   id: string;
   vocab: string;
+  wordClass?: string;
   meaning: string;
 }
 
@@ -13,4 +14,4 @@ export interface Section {
   createdAt: number;
 }
 
-export type ViewMode = 'dashboard' | 'edit' | 'flashcard' | 'quiz';
+export type ViewMode = 'dashboard' | 'edit' | 'flashcard' | 'quiz' | 'response' | 'test';

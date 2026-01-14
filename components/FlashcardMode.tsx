@@ -99,6 +99,11 @@ const FlashcardMode: React.FC<FlashcardModeProps> = ({ section, onClose }) => {
         >
           <div className="absolute inset-0 bg-white border-2 border-black rounded-3xl shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] flex flex-col items-center justify-center p-8 backface-hidden text-black">
             <span className="text-[10px] font-black uppercase tracking-[0.2em] mb-4">Vocabulary</span>
+            {current.wordClass && (
+              <span className="px-3 py-1 bg-sky-100 border border-black rounded-lg text-xs font-black uppercase mb-3">
+                {current.wordClass}
+              </span>
+            )}
             <h3 className="text-4xl font-black text-center">{current.vocab}</h3>
             <p className="mt-12 text-xs font-black border-b border-black uppercase">Click to Reveal</p>
           </div>
