@@ -350,7 +350,7 @@ const TestMode: React.FC<TestModeProps> = ({ section, onClose }) => {
             {/* Side Navigation Bar */}
             {!isDone && (
                 <div
-                    className={`fixed top-24 right-0 h-[calc(100vh-96px)] bg-white border-l-2 border-black shadow-[-10px_0px_30px_0px_rgba(0,0,0,0.1)] transition-transform duration-300 z-50 
+                    className={`fixed top-[73px] right-0 h-[calc(100vh-73px)] bg-white border-l-2 border-black shadow-[-10px_0px_30px_0px_rgba(0,0,0,0.1)] transition-transform duration-300 z-50 
             ${isSidebarOpen ? 'translate-x-0 w-64' : 'translate-x-full w-64'}`}
                 >
                     <button
@@ -366,7 +366,7 @@ const TestMode: React.FC<TestModeProps> = ({ section, onClose }) => {
                     </button>
 
                     <div className="p-6 h-full flex flex-col">
-                        <h4 className="font-black uppercase text-xs tracking-widest mb-6 text-black border-b-2 border-black pb-2">Jump to</h4>
+                        <h4 className="font-black uppercase text-xs tracking-widest mb-6 text-black border-b-2 border-black pb-2">Quiz Navigation</h4>
                         <div className="flex-grow overflow-y-auto grid grid-cols-4 gap-2 content-start pr-2 custom-scrollbar">
                             {questions.map((q, idx) => (
                                 <button

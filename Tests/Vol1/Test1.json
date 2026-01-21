@@ -1,0 +1,466 @@
+{
+    "id": "vol1_test1",
+    "title": "Volume 1 – Test 1",
+    "sections": [
+        {
+            "id": "section1",
+            "title": "Section 1",
+            "audio": "https://github.com/HiuuKun/FlashCard/releases/download/Vol1_Test1/Section1.mp3",
+            "parts": [
+                {
+                    "type": "form_completion",
+                    "instructions": "Complete the form below. Write NO MORE THAN TWO WORDS AND/OR A NUMBER for each answer.",
+                    "questions": [
+                        {
+                            "id": "example",
+                            "label": "Full Name",
+                            "answer": "Jane Bond"
+                        },
+                        {
+                            "id": 1,
+                            "label": "Phone Number _____________",
+                            "answer": "94635550"
+                        },
+                        {
+                            "id": 2,
+                            "label": "USA Address: 509_____________,",
+                            "answer": "Clark House"
+                        },
+                        {
+                            "id": 3,
+                            "label": "1137 _____________ in Seattle",
+                            "answer": "University Drive"
+                        },
+                        {
+                            "id": 4,
+                            "label": "Packing Day: __________",
+                            "answer": "Monday"
+                        },
+                        {
+                            "id": "n/a",
+                            "label": "Date",
+                            "answer": "11th March"
+                        },
+                        {
+                            "id": "n/a",
+                            "label": "Clean-up by",
+                            "answer": "5:00 p.m."
+                        },
+                        {
+                            "id": 5,
+                            "label": "Day: ___________",
+                            "answer": "Thursday"
+                        },
+                        {
+                            "id": "n/a",
+                            "label": "About the Price",
+                            "answer": "Rather expensive"
+                        },
+                        {
+                            "id": 6,
+                            "label": "Storage Time: __________",
+                            "answer": "one month"
+                        }
+                    ]
+                },
+                {
+                    "type": "multiple_choice_single",
+                    "instructions": "Where does the speaker decide to put items in? Write the correct letter, A, B, or C, next to questions 7-10.\nA in emergency pack\nB in personal package\nC in storage with the furniture",
+                    "questions": [
+                        {
+                            "id": 7,
+                            "question": "cutlery and dishes",
+                            "options": {
+                                "A": "in emergency pack",
+                                "B": "in personal package",
+                                "C": "in storage with the furniture"
+                            },
+                            "answer": "A"
+                        },
+                        {
+                            "id": 8,
+                            "question": "kettle",
+                            "options": {
+                                "A": "in emergency pack",
+                                "B": "in personal package",
+                                "C": "in storage with the furniture"
+                            },
+                            "answer": "C"
+                        },
+                        {
+                            "id": 9,
+                            "question": "alarm clock",
+                            "options": {
+                                "A": "in emergency pack",
+                                "B": "in personal package",
+                                "C": "in storage with the furniture"
+                            },
+                            "answer": "B"
+                        },
+                        {
+                            "id": 10,
+                            "question": "CD player",
+                            "options": {
+                                "A": "in emergency pack",
+                                "B": "in personal package",
+                                "C": "in storage with the furniture"
+                            },
+                            "answer": "C"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "section2",
+            "title": "Section 2",
+            "audio": "https://github.com/HiuuKun/FlashCard/releases/download/Vol1_Test1/Section2.mp3",
+            "parts": [
+                {
+                    "type": "table_completion",
+                    "instructions": "Complete the table below. Write NO MORE THAN THREE WORDS AND/OR A NUMBER for each answer.",
+                    "table": {
+                        "headers": [
+                            "TIME",
+                            "CONTENT",
+                            "LOCATION"
+                        ],
+                        "rows": [
+                            {
+                                "cells": [
+                                    "9:00 a.m.",
+                                    [
+                                        {
+                                            "id": 11,
+                                            "label": "Title of the lecture: ....................",
+                                            "answer": "Computer as Teacher"
+                                        },
+                                        {
+                                            "id": 12,
+                                            "label": "Lecturer: John Smith from the ....................",
+                                            "answer": "University of Melbourne"
+                                        }
+                                    ],
+                                    "Main Hall"
+                                ]
+                            },
+                            {
+                                "cells": [
+                                    "10:30 a.m.",
+                                    "Presentation of papers",
+                                    "Garden Room on the ground floor"
+                                ]
+                            },
+                            {
+                                "cells": [
+                                    "11:15 a.m.",
+                                    "Coffee break",
+                                    "Main Hall"
+                                ]
+                            },
+                            {
+                                "cells": [
+                                    "1:00 p.m.",
+                                    "Lunch",
+                                    [
+                                        {
+                                            "id": 13,
+                                            "label": "Sea View Restaurant on the ________",
+                                            "answer": "top floor"
+                                        },
+                                        {
+                                            "id": 14,
+                                            "label": "The lift on the ________",
+                                            "answer": "ground floor"
+                                        }
+                                    ]
+                                ]
+                            },
+                            {
+                                "cells": [
+                                    "2:00 p.m.",
+                                    "Presentation of further papers",
+                                    "Ballroom"
+                                ]
+                            },
+                            {
+                                "cells": [
+                                    {
+                                        "id": 15,
+                                        "label": "____________ p.m.",
+                                        "answer": "3.10"
+                                    },
+                                    "Afternoon tea",
+                                    "Ballroom"
+                                ]
+                            },
+                            {
+                                "cells": [
+                                    "5:00 p.m.",
+                                    "Conference will be finished",
+                                    "Main Hall"
+                                ]
+                            },
+                            {
+                                "cells": [
+                                    "5:10-6:10 p.m.",
+                                    "Informal reception",
+                                    {
+                                        "id": 16,
+                                        "label": "__________",
+                                        "answer": "Palm Lounge"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                },
+                {
+                    "type": "multiple_choice_single",
+                    "instructions": "Choose the correct letter, A, B, or C.",
+                    "questions": [
+                        {
+                            "id": 17,
+                            "question": "Tickets are available",
+                            "options": {
+                                "A": "only at the reception desk.",
+                                "B": "tomorrow evening.",
+                                "C": "at any time before the reception."
+                            },
+                            "answer": "C"
+                        },
+                        {
+                            "id": 18,
+                            "question": "The delegates will be charged _______ for lunch.",
+                            "options": {
+                                "A": "$6.50",
+                                "B": "$15.00",
+                                "C": "$25.00"
+                            },
+                            "answer": "B"
+                        },
+                        {
+                            "id": 19,
+                            "question": "The restaurant is famous for",
+                            "options": {
+                                "A": "steak.",
+                                "B": "fish.",
+                                "C": "barbecue."
+                            },
+                            "answer": "B"
+                        },
+                        {
+                            "id": 20,
+                            "question": "The trip on Sunday costs",
+                            "options": {
+                                "A": "$35 in total.",
+                                "B": "$35 plus entrance fees.",
+                                "C": "$35 plus lunch."
+                            },
+                            "answer": "A"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "section3",
+            "title": "Section 3",
+            "audio": "https://github.com/HiuuKun/FlashCard/releases/download/Vol1_Test1/Section3.mp3",
+            "parts": [
+                {
+                    "type": "multiple_choice_single",
+                    "instructions": "Choose the correct letter, A, B, or C.",
+                    "questions": [
+                        {
+                            "id": 21,
+                            "question": "What is the defining characteristic of a specialised course?",
+                            "options": {
+                                "A": "Taking a proficiency exam",
+                                "B": "Attending the class frequently",
+                                "C": "Compulsory and regular"
+                            },
+                            "answer": "C"
+                        },
+                        {
+                            "id": 22,
+                            "question": "The Microbiology courses are available for",
+                            "options": {
+                                "A": "full-time and flexible-time students.",
+                                "B": "Microbiology students only.",
+                                "C": "students on a flexible schedule."
+                            },
+                            "answer": "A"
+                        },
+                        {
+                            "id": 23,
+                            "question": "The Biology courses are available for",
+                            "options": {
+                                "A": "all students.",
+                                "B": "full-time students only.",
+                                "C": "freshmen only."
+                            },
+                            "answer": "B"
+                        },
+                        {
+                            "id": 24,
+                            "question": "Who are interested in Microbiology courses?",
+                            "options": {
+                                "A": "People who need work experience",
+                                "B": "People from off-campus",
+                                "C": "People who work at hospital"
+                            },
+                            "answer": "B"
+                        },
+                        {
+                            "id": 25,
+                            "question": "A Medical Science course will be opened next year because",
+                            "options": {
+                                "A": "there are no experimental facilities.",
+                                "B": "the lab equipment is too expensive.",
+                                "C": "the building is damaged."
+                            },
+                            "answer": "A"
+                        },
+                        {
+                            "id": 26,
+                            "question": "Which is the quickest increasing subject in enrolment?",
+                            "options": {
+                                "A": "Medical Science",
+                                "B": "Statistics",
+                                "C": "Environmental Science"
+                            },
+                            "answer": "C"
+                        }
+                    ]
+                },
+                {
+                    "type": "multiple_choice_multi",
+                    "instructions": "Choose THREE letters, A-G.",
+                    "limit": 3,
+                    "questions": [
+                        {
+                            "id": 27,
+                            "question": "Which THREE compulsory courses must be taken?",
+                            "options": {
+                                "A": "Medical Science",
+                                "B": "Computing",
+                                "C": "Mathematics",
+                                "D": "Laboratory Techniques",
+                                "E": "Statistics",
+                                "F": "Medicine",
+                                "G": "Environmental Science"
+                            },
+                            "answer": [
+                                "C",
+                                "E",
+                                "F"
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "type": "sentence_completion",
+                    "instructions": "Complete the sentence below. Write NO MORE THAN TWO WORDS for the answer.",
+                    "questions": [
+                        {
+                            "id": 30,
+                            "question": "There are three full scholarships that cover tuition and provide $1,500 cash as a",
+                            "answer": "textbook allowance"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "section4",
+            "title": "Section 4",
+            "audio": "https://github.com/HiuuKun/FlashCard/releases/download/Vol1_Test1/Section4.mp3",
+            "parts": [
+                {
+                    "type": "note_completion",
+                    "instructions": "Complete the notes below. Write NO MORE THAN TWO WORDS for each answer.",
+                    "questions": [
+                        {
+                            "id": 31,
+                            "label": "There are some man-made materials like",
+                            "answer": "plastic"
+                        },
+                        {
+                            "id": 32,
+                            "label": "Before being used, material undergoes",
+                            "answer": "processing"
+                        },
+                        {
+                            "id": 33,
+                            "label": "Wood should be cut and",
+                            "answer": "seasoned"
+                        },
+                        {
+                            "id": 34,
+                            "label": "Stone should be cut and",
+                            "answer": "polished"
+                        },
+                        {
+                            "id": 35,
+                            "label": "Aside from environmental factors, one should take ___ into account during construction.",
+                            "answer": "cost"
+                        },
+                        {
+                            "id": 36,
+                            "label": "Some properties of materials affect mood, such as texture, ___ and colour.",
+                            "answer": "grain patterns"
+                        },
+                        {
+                            "id": 37,
+                            "label": "Use a mathematical formula to choose the type of wood, because ___ are subjective, which are ambiguous in verbal description.",
+                            "answer": "words"
+                        }
+                    ]
+                },
+                {
+                    "type": "table_completion",
+                    "instructions": "Complete the table below. Write NO MORE THAN TWO WORDS AND/OR A NUMBER for each answer.",
+                    "table": {
+                        "headers": [
+                            "MATERIAL",
+                            "REFLECTANCE RATE"
+                        ],
+                        "rows": [
+                            {
+                                "cells": [
+                                    "White-painted plastic",
+                                    {
+                                        "id": 38,
+                                        "label": "Approximately",
+                                        "answer": "0.8"
+                                    }
+                                ]
+                            },
+                            {
+                                "cells": [
+                                    "Quarry tile",
+                                    {
+                                        "id": 39,
+                                        "label": "Approximately",
+                                        "answer": "0.1"
+                                    }
+                                ]
+                            },
+                            {
+                                "cells": [
+                                    {
+                                        "id": 40,
+                                        "label": "Material",
+                                        "answer": "black velvet"
+                                    },
+                                    "Almost 0.0"
+                                ]
+                            }
+                        ]
+                    }
+                }
+            ]
+        }
+    ]
+}

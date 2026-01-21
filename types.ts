@@ -14,4 +14,4 @@ export interface Section {
   createdAt: number;
 }
 
-export type ViewMode = 'dashboard' | 'edit' | 'flashcard' | 'quiz' | 'response' | 'test';
+export type ViewMode = 'dashboard' | 'edit' | 'flashcard' | 'quiz' | 'response' | 'test' | 'listening';

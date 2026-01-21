@@ -1,4 +1,6 @@
 
+
+
 import React, { useState, useEffect, useRef } from 'react';
 import { Section, ViewMode } from './types';
 import { BrainIcon, PlusIcon, PencilIcon, TrashIcon, PlayIcon, ExportIcon, ImportIcon } from './components/Icons';
@@ -7,6 +9,8 @@ import FlashcardMode from './components/FlashcardMode';
 import QuizMode from './components/QuizMode';
 import ResponseMode from './components/ResponseMode';
 import TestMode from './components/TestMode';
+import ListeningTest from './components/ListeningTest';
+import JSZip from 'jszip';
 
 const App: React.FC = () => {
   const [sections, setSections] = useState<Section[]>(() => {
@@ -23,6 +27,7 @@ const App: React.FC = () => {
 
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
   const [showExportModal, setShowExportModal] = useState(false);
+  const [showImportModal, setShowImportModal] = useState(false);
   const [activeId, setActiveId] = useState<string | null>(null);
   const [deleteId, setDeleteId] = useState<string | null>(null);
   const [mode, setMode] = useState<ViewMode>('dashboard');
@@ -110,20 +115,55 @@ const App: React.FC = () => {
     if (singleFile) {
       downloadJSON(selectedSections, `linguist_export_${Date.now()}.json`);
     } else {
-      for (const s of selectedSections) {
-        downloadJSON(s, `${s.title.toLowerCase().replace(/\s/g, '_')}.json`);
-        // Small delay to ensure browser handles multiple downloads
-        await new Promise(resolve => setTimeout(resolve, 200));
-      }
+      // Create a ZIP file with all selected sections
+      const zip = new JSZip();
+
+      selectedSections.forEach(s => {
+        const filename = `${s.title.toLowerCase().replace(/\s/g, '_')}.json`;
+        zip.file(filename, JSON.stringify(s, null, 2));
+      });
+
+      // Generate the ZIP file
+      const blob = await zip.generateAsync({ type: 'blob' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `linguist_sections_${Date.now()}.zip`;
+      a.click();
+      URL.revokeObjectURL(url);
     }
     setShowExportModal(false);
     setSelectedIds(new Set());
   };
 
-  const importJSON = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const files = e.target.files;
-    if (!files || files.length === 0) return;
+  const handleImportFromText = (jsonText: string) => {
+    try {
+      const json = JSON.parse(jsonText);
+      const dataList = Array.isArray(json) ? json : [json];
+      const newSections: Section[] = [];
 
+      dataList.forEach((data: any) => {
+        if (data.title && Array.isArray(data.cards)) {
+          // Assign a new ID to avoid collisions with existing data
+          data.id = crypto.randomUUID();
+          newSections.push(data as Section);
+        }
+      });
+
+      if (newSections.length > 0) {
+        setSections(prev => [...prev, ...newSections]);
+        setShowImportModal(false);
+        alert(`Successfully imported ${newSections.length} section(s)!`);
+      } else {
+        alert("No valid sections found in the pasted content.");
+      }
+    } catch (err) {
+      alert("Invalid JSON format. Please check your input and try again.");
+      console.error("Error parsing JSON:", err);
+    }
+  };
+
+  const handleImportFromFiles = async (files: FileList) => {
     const newSections: Section[] = [];
 
     const readFile = (file: File): Promise<void> => {
@@ -154,11 +194,11 @@ const App: React.FC = () => {
 
     if (newSections.length > 0) {
       setSections(prev => [...prev, ...newSections]);
+      setShowImportModal(false);
+      alert(`Successfully imported ${newSections.length} section(s)!`);
     } else {
       alert("No valid sections found in the imported files.");
     }
-
-    e.target.value = '';
   };
 
   const handleDragStart = (e: React.DragEvent<HTMLDivElement>, position: number) => {
@@ -229,7 +269,7 @@ const App: React.FC = () => {
                 onClick={() => handleBulkExport(false)}
                 className="w-full px-4 py-3 bg-white text-black border-2 border-black rounded-xl font-black hover:bg-slate-100 transition-all uppercase text-sm shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] active:shadow-none active:translate-x-1 active:translate-y-1"
               >
-                Multiple JSON Files
+                Multiple JSON Files (ZIP)
               </button>
               <button
                 onClick={() => setShowExportModal(false)}
@@ -242,18 +282,126 @@ const App: React.FC = () => {
         </div>
       )}
 
-      <nav className="bg-white border-b-2 border-sky-200 py-4 px-8 flex justify-between items-center sticky top-0 z-50 shadow-sm">
-        <div onClick={() => setMode('dashboard')} className="flex items-center gap-3 cursor-pointer">
-          <div className="w-10 h-10 bg-sky-500 rounded-lg flex items-center justify-center text-white">
-            <BrainIcon className="w-6 h-6 text-white" />
+      {/* Import Modal */}
+      {showImportModal && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-[100] flex items-center justify-center p-4">
+          <div className="bg-white p-8 rounded-3xl border-2 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] max-w-2xl w-full animate-in fade-in zoom-in duration-200">
+            <h3 className="text-2xl font-black text-black mb-4 uppercase">Import Sections</h3>
+            <p className="text-black mb-6 font-medium">Paste JSON content or drag and drop JSON files below</p>
+
+            {/* Textarea for pasting JSON */}
+            <div className="mb-6">
+              <label className="block text-sm font-bold text-black mb-2 uppercase">Paste JSON Content</label>
+              <textarea
+                id="import-textarea"
+                placeholder='Paste your JSON here... e.g., {"title": "My Section", "cards": [...]}'
+                className="w-full h-48 p-4 border-2 border-black rounded-xl font-mono text-sm resize-none focus:outline-none focus:ring-2 focus:ring-sky-500"
+              />
+            </div>
+
+            {/* Drag and Drop Area */}
+            <div
+              onDragOver={(e) => {
+                e.preventDefault();
+                e.currentTarget.classList.add('border-sky-500', 'bg-sky-50');
+              }}
+              onDragLeave={(e) => {
+                e.currentTarget.classList.remove('border-sky-500', 'bg-sky-50');
+              }}
+              onDrop={(e) => {
+                e.preventDefault();
+                e.currentTarget.classList.remove('border-sky-500', 'bg-sky-50');
+                const files = e.dataTransfer.files;
+                if (files && files.length > 0) {
+                  handleImportFromFiles(files);
+                }
+              }}
+              className="mb-6 border-2 border-dashed border-black rounded-xl p-8 text-center transition-all cursor-pointer hover:border-sky-500 hover:bg-sky-50"
+              onClick={() => document.getElementById('file-input')?.click()}
+            >
+              <ImportIcon className="w-12 h-12 mx-auto mb-3 text-sky-500" />
+              <p className="font-bold text-black mb-1">Drag and drop JSON files here</p>
+              <p className="text-sm text-gray-600">or click to browse</p>
+              <input
+                id="file-input"
+                type="file"
+                accept=".json"
+                multiple
+                className="hidden"
+                onChange={(e) => {
+                  if (e.target.files && e.target.files.length > 0) {
+                    handleImportFromFiles(e.target.files);
+                  }
+                  e.target.value = '';
+                }}
+              />
+            </div>
+
+            {/* Action Buttons */}
+            <div className="flex gap-4">
+              <button
+                onClick={() => setShowImportModal(false)}
+                className="flex-1 px-4 py-3 border-2 border-black text-black rounded-xl font-black hover:bg-slate-100 transition-all uppercase text-sm"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={() => {
+                  const textarea = document.getElementById('import-textarea') as HTMLTextAreaElement;
+                  if (textarea && textarea.value.trim()) {
+                    handleImportFromText(textarea.value.trim());
+                    textarea.value = '';
+                  } else {
+                    alert('Please paste JSON content or upload a file.');
+                  }
+                }}
+                className="flex-1 px-4 py-3 bg-sky-500 text-white border-2 border-black rounded-xl font-black hover:bg-sky-600 transition-all uppercase text-sm shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] active:shadow-none active:translate-x-1 active:translate-y-1"
+              >
+                Import from Text
+              </button>
+            </div>
           </div>
-          <span className="text-xl font-black tracking-tight text-black">IeltsForMH</span>
+        </div>
+      )}
+
+      <nav className="bg-white border-b-2 border-sky-200 py-4 px-8 flex justify-between items-center sticky top-0 z-[100] shadow-sm">
+        <div className="flex items-center gap-8">
+          <div onClick={() => setMode('dashboard')} className="flex items-center gap-3 cursor-pointer">
+            <div className="w-10 h-10 bg-sky-500 rounded-lg flex items-center justify-center text-white">
+              <BrainIcon className="w-6 h-6 text-white" />
+            </div>
+            <span className="text-xl font-black tracking-tight text-black">IeltsForMH</span>
+          </div>
+
+          {/* Navigation Links */}
+          <div className="flex gap-2">
+            <button
+              onClick={() => setMode('dashboard')}
+              className={`px-4 py-2 text-sm font-bold rounded-lg transition-all border-2 ${mode === 'dashboard' || mode === 'edit'
+                ? 'bg-sky-500 text-white border-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]'
+                : 'bg-white text-black border-transparent hover:border-sky-300 hover:bg-sky-50'
+                }`}
+            >
+              Flashcard
+            </button>
+            <button
+              onClick={() => setMode('listening')}
+              className={`px-4 py-2 text-sm font-bold rounded-lg transition-all border-2 ${mode === 'listening'
+                ? 'bg-purple-500 text-white border-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]'
+                : 'bg-white text-black border-transparent hover:border-purple-300 hover:bg-purple-50'
+                }`}
+            >
+              Listening
+            </button>
+          </div>
         </div>
         <div className="flex gap-4">
-          <label className="flex items-center gap-2 px-4 py-2 text-sm font-bold text-black hover:bg-sky-100 rounded-lg cursor-pointer transition-colors border border-transparent hover:border-sky-300">
+          <button
+            onClick={() => setShowImportModal(true)}
+            className="flex items-center gap-2 px-4 py-2 text-sm font-bold text-black hover:bg-sky-100 rounded-lg cursor-pointer transition-colors border border-transparent hover:border-sky-300"
+          >
             <ImportIcon /> Import
-            <input type="file" accept=".json" multiple className="hidden" onChange={importJSON} />
-          </label>
+          </button>
           <button
             type="button"
             onClick={() => { setMode('edit'); setActiveId(null); }}
@@ -386,6 +534,7 @@ const App: React.FC = () => {
         {mode === 'quiz' && activeSection && <QuizMode section={activeSection} onClose={() => setMode('dashboard')} />}
         {mode === 'response' && activeSection && <ResponseMode section={activeSection} onClose={() => setMode('dashboard')} />}
         {mode === 'test' && activeSection && <TestMode section={activeSection} onClose={() => setMode('dashboard')} />}
+        {mode === 'listening' && <ListeningTest onClose={() => setMode('dashboard')} />}
       </main>
     </div>
   );

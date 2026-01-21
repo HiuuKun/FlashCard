@@ -42,6 +42,13 @@ const ResponseMode: React.FC<ResponseModeProps> = ({ section, onClose }) => {
         }
     };
 
+    const handleDontKnow = () => {
+        const currentCard = cards[index];
+        setIsCorrect(false);
+        setShowFeedback(true);
+        setIncorrect(prev => [...prev, currentCard]);
+    };
+
     const handleNext = () => {
         if (index < cards.length - 1) {
             setShowFeedback(false);
@@ -167,13 +174,21 @@ const ResponseMode: React.FC<ResponseModeProps> = ({ section, onClose }) => {
 
             <div className="flex justify-center gap-4">
                 {!showFeedback ? (
-                    <button
-                        onClick={checkAnswer}
-                        disabled={!userInput.trim()}
-                        className="px-8 py-4 bg-sky-500 text-white border-2 border-black rounded-xl font-black hover:bg-sky-600 transition-all uppercase shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] active:shadow-none active:translate-x-1 active:translate-y-1 disabled:opacity-50 disabled:cursor-not-allowed"
-                    >
-                        Check Answer
-                    </button>
+                    <>
+                        <button
+                            onClick={checkAnswer}
+                            disabled={!userInput.trim()}
+                            className="px-8 py-4 bg-sky-500 text-white border-2 border-black rounded-xl font-black hover:bg-sky-600 transition-all uppercase shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] active:shadow-none active:translate-x-1 active:translate-y-1 disabled:opacity-50 disabled:cursor-not-allowed"
+                        >
+                            Check Answer
+                        </button>
+                        <button
+                            onClick={handleDontKnow}
+                            className="px-8 py-4 bg-slate-200 text-black border-2 border-black rounded-xl font-black hover:bg-slate-300 transition-all uppercase shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] active:shadow-none active:translate-x-1 active:translate-y-1"
+                        >
+                            I Don't Know
+                        </button>
+                    </>
                 ) : (
                     <button
                         onClick={handleNext}
